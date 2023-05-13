@@ -1,0 +1,4 @@
+1. Make github repo and clone
+2. package.json
+3. tsconfig.json
+4. webpack.config.js

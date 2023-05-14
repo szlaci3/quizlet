@@ -43,28 +43,41 @@ const App: React.FC = () => {
   return (
     <>
       <h1>React Quiz</h1>
-      {isGameOver || answerCounter === TOTAL_QUESTIONS ? (
+      {isGameOver || answerCounter === TOTAL_QUESTIONS / 2 ? (
         <div>
           <p>Game Over! Your final score is {score} out of {TOTAL_QUESTIONS}.</p>
           <button onClick={startTrivia}>Start Again</button>
         </div>
+      ) : isLoading ? (
+        <p>Loading Questions...</p>
       ) : (
-        <QuestionCard
-          questionNumber={answerCounter + 1}
-          totalQuestions={TOTAL_QUESTIONS}
-          question={questions[answerCounter].question}
-          answers={questions[answerCounter].answers}
-          userAnswer={currentAnswer}
-          callback={checkAnswer}
-        />
+        <>
+          <QuestionCard
+            questionNumber={answerCounter * 2 + 1}
+            totalQuestions={TOTAL_QUESTIONS}
+            question={questions[answerCounter * 2].question}
+            answers={questions[answerCounter * 2].answers}
+            userAnswer={currentAnswer}
+            callback={checkAnswer}
+          />
+          <QuestionCard
+            questionNumber={answerCounter * 2 + 2}
+            totalQuestions={TOTAL_QUESTIONS}
+            question={questions[answerCounter * 2 + 1].question}
+            answers={questions[answerCounter * 2 + 1].answers}
+            userAnswer={currentAnswer}
+            callback={checkAnswer}
+          />
+          {currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
+            <button className='next' onClick={nextQuestion}>
+              Next Question
+            </button>
+          ) : null}
+        </>
       )}
-      {!isGameOver && !loading && currentAnswer !== "" ? (
-        <button className='next' onClick={nextQuestion}>
-          Next Question
-        </button>
-      ) : null}
     </>
   );
+  
 };
 
 export default App;

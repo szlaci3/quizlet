@@ -15,8 +15,8 @@ export const Wrapper = styled.div`
 `;
 
 type ButtonWrapperProps = {
-  correct: boolean;
-  userClicked: boolean;
+  correct: "true" | "false";
+  clicked: "true" | "false";
 };
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
@@ -33,13 +33,13 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     width: 100%;
     height: 40px;
     margin: 5px 0;
-    background: ${({ correct, userClicked }) =>
-      correct
+    background: ${({ correct, clicked }) =>
+      correct === 'true'
         ? 'linear-gradient(90deg, #56FFA4, #59BC86)'
-        : !correct && userClicked
+        : correct === 'false' && clicked === 'true'
         ? 'linear-gradient(90deg, #FF5656, #C16868)'
-        : 'linear-gradient(90deg, #56ccff, #6eafb4)'};
-    border: 3px solid #ffffff;
+        : 'linear-gradient(90deg, #56CCFF, #6EAFB4)'};
+    border: 3px solid #fff;
     box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     color: #fff;

@@ -1,4 +1,4 @@
-CRA ts
+CRA ts scss
 
 
 1. Make github repo and clone

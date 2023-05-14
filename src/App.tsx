@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.scss';
+import React, { useState } from 'react';
+import { fetchQuizQuestions } from './API';
+// Components
+import QuestionCard from './components/QuestionCard';
+// types
+import { QuestionsState, Difficulty } from './API';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const TOTAL_QUESTIONS = 10;
+
+const App: React.FC = () => {
+  const [answerCounter, setAnswerCounter] = useState(0);
+  const [score, setScore] = useState(0);
+  const [currentAnswer, setCurrentAnswer] = useState("");
+  const [isGameOver, setIsGameOver] = useState(false);
+
+  return <>
+    
+  </>
 }
 
 export default App;

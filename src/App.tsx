@@ -1,35 +1,44 @@
 import React, { useState } from 'react';
-import { fetchQuizQuestions } from './API';
-// Components
 import QuestionCard from './components/QuestionCard';
-// types
-import { QuestionsState, Difficulty } from './types';
-
-const TOTAL_QUESTIONS = 10;
+import { Difficulty } from './types';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './reducers';
+import { loadQuestions } from './actions/loadQuestions';
+import { TOTAL_QUESTIONS } from './constants';
 
 const App: React.FC = () => {
-  const [answerCounter, setAnswerCounter] = useState(0);
-  const [score, setScore] = useState(0);
+  const answerCounter = useSelector((state: RootState) => state.answerCounter);
+  const score = useSelector((state: RootState) => state.score);
+  const questions = useSelector((state: RootState) => state.questions);
+  
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [isGameOver, setIsGameOver] = useState(true);
-  const [questions, setQuestions] = useState<QuestionsState[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const startTrivia = async () => {
     setIsLoading(true);
     setIsGameOver(false);
-    const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY);
-    setQuestions(newQuestions);
-    setScore(0);
-    setAnswerCounter(0);
-    setIsLoading(false);
+    try {
+      await dispatch(loadQuestions());
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    } finally {
+      dispatch({ type: "RESET_SCORE"});
+      dispatch({ type: "RESET_COUNTER"});
+      setIsLoading(false);
+      setCurrentAnswer("");
+    }
   };
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     const answer = e.currentTarget.value;
     const isCorrect = questions[answerCounter].correct_answer === answer;
     if (isCorrect) {
-      setScore(prev => prev + 1);
+      dispatch({ type: "INCREMENT_SCORE" });
     }
     setCurrentAnswer(answer);
     setIsGameOver(answerCounter === TOTAL_QUESTIONS / 2 - 1);
@@ -37,15 +46,19 @@ const App: React.FC = () => {
 
   const nextQuestion = () => {
     setCurrentAnswer("");
-    setAnswerCounter(prev => prev + 1);
+    dispatch({ type: "INCREMENT_COUNTER" });
   };
 
   return (
     <>
       <h1>React Quiz</h1>
+      <div>
+        <p>Sore is {score}.</p>
+      </div>
+
       {isGameOver || answerCounter === TOTAL_QUESTIONS / 2 ? (
         <div>
-          <p>Game Over! Your final score is {score} out of {TOTAL_QUESTIONS}.</p>
+          <p>Game Over! Your final score is {score} out of {TOTAL_QUESTIONS / 2}.</p>
           <button onClick={startTrivia}>Start Again</button>
         </div>
       ) : isLoading ? (
@@ -79,7 +92,6 @@ const App: React.FC = () => {
       )}
     </>
   );
-  
 };
 
 export default App;

@@ -14,3 +14,37 @@ export type Question = {
 };
 
 export type QuestionsState = Question & { answers: string[] };
+
+interface LoadQuestionsAction {
+  type: "LOAD_QUESTIONS";
+  payload: QuestionsState[];
+}
+
+interface SelectAnswerAction {
+  type: "SELECT_ANSWER";
+  payload: string;
+}
+
+interface IncrementCounterAction {
+  type: "INCREMENT_COUNTER";
+}
+
+interface ResetCounterAction {
+  type: "RESET_COUNTER";
+}
+
+interface IncrementScoreAction {
+  type: "INCREMENT_SCORE";
+}
+
+interface ResetScoreAction {
+  type: "RESET_SCORE";
+}
+
+export type Action =
+  | LoadQuestionsAction
+  | SelectAnswerAction
+  | IncrementCounterAction
+  | ResetCounterAction
+  | IncrementScoreAction
+  | ResetScoreAction;

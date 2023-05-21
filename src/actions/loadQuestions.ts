@@ -5,12 +5,12 @@ import { Difficulty } from '../types';
 import { fetchQuizQuestions } from '../API';
 import { TOTAL_QUESTIONS } from '../constants';
 
-export const loadQuestions = createAsyncThunk<(dispatch: any) => Promise<void>, void>(
+export const loadQuestions = createAsyncThunk<any>(
   'quiz/loadQuestions',
-  () => async (dispatch) => {
+  async () => {
     try {
       const newQuestions = await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY);
-      dispatch({type: 'LOAD_QUESTIONS', payload: newQuestions});
+      return newQuestions;
     }  catch (error) {
       console.error(error);
     }

@@ -13,11 +13,11 @@ export type Question = {
   type: string;
 };
 
-export type QuestionsState = Question & { answers: string[] };
+export type QuestionState = Question & { answers: string[] };
 
 interface LoadQuestionsAction {
   type: "LOAD_QUESTIONS";
-  payload: QuestionsState[];
+  payload: QuestionState[];
 }
 
 interface SelectAnswerAction {

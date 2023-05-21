@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
 import QuestionCard from './components/QuestionCard';
-import { Difficulty } from './types';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './reducers';
+import { connect } from 'react-redux';
+import { QuizState } from './quizSlice';
 import { loadQuestions } from './actions/loadQuestions';
 import { TOTAL_QUESTIONS } from './constants';
 
-const App: React.FC = () => {
-  const answerCounter = useSelector((state: RootState) => state.answerCounter);
-  const score = useSelector((state: RootState) => state.score);
-  const questions = useSelector((state: RootState) => state.questions);
-  
+interface AppProps {
+  answerCounter: number;
+  score: number;
+  questions: any[];
+  loadQuestions: () => void;
+}
+
+const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestions }) => {
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [isGameOver, setIsGameOver] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  const dispatch = useDispatch();
 
   const startTrivia = async () => {
     setIsLoading(true);
     setIsGameOver(false);
     try {
-      await dispatch(loadQuestions());
-      setIsLoading(false);
+      await loadQuestions();
     } catch (error) {
       console.error(error);
-      setIsLoading(false);
     } finally {
-      dispatch({ type: "RESET_SCORE"});
-      dispatch({ type: "RESET_COUNTER"});
       setIsLoading(false);
       setCurrentAnswer("");
     }
@@ -38,7 +34,7 @@ const App: React.FC = () => {
     const answer = e.currentTarget.value;
     const isCorrect = questions[answerCounter].correct_answer === answer;
     if (isCorrect) {
-      dispatch({ type: "INCREMENT_SCORE" });
+      // ...
     }
     setCurrentAnswer(answer);
     setIsGameOver(answerCounter === TOTAL_QUESTIONS / 2 - 1);
@@ -46,7 +42,7 @@ const App: React.FC = () => {
 
   const nextQuestion = () => {
     setCurrentAnswer("");
-    dispatch({ type: "INCREMENT_COUNTER" });
+    // ...
   };
 
   return (
@@ -94,4 +90,16 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+const mapStateToProps = (state: QuizState) => {
+  return {
+    answerCounter: state.answerCounter,
+    score: state.score,
+    questions: state.questions,
+  };
+};
+
+const mapDispatchToProps = {
+  loadQuestions,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

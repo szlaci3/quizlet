@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Question, QuestionsState } from "./types";
+import { Question, QuestionState } from "./types";
 import {
   _SELECT_ANSWER,
   _INCREMENT_COUNTER,
@@ -7,10 +7,10 @@ import {
   _INCREMENT_SCORE,
   _RESET_SCORE,
 } from "./actionTypes";
-import { loadQuestions } from "./loadQuestions";
+import { loadQuestions } from "./actions/loadQuestions";
 
 export interface QuizState {
-  questions: QuestionsState[];
+  questions: QuestionState[];
   userAnswer: string;
   answerCounter: number;
   score: number;
@@ -46,6 +46,12 @@ export const quizSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loadQuestions.fulfilled, (state, action) => {
       state.questions = action.payload;
+    });
+    builder.addCase(loadQuestions.pending, (state) => {
+      state.questions = [];
+    });
+    builder.addCase(loadQuestions.rejected, (state) => {
+      state.questions = [];
     });
   },
 });

@@ -1,3 +1,6 @@
+
+/// file is obsolete
+
 import { QuestionsState, Action } from "../types";
 import { Reducer } from "redux";
 

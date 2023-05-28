@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import QuestionCard from './components/QuestionCard';
 import { connect, useDispatch } from 'react-redux';
-import { QuizState } from './quizSlice';
+import { QuizState,
+  INCREMENT_COUNTER,
+  RESET_COUNTER,
+  INCREMENT_SCORE,
+  RESET_SCORE,
+} from './quizSlice';
 import { loadQuestions } from './actions/loadQuestions';
 import { TOTAL_QUESTIONS } from './constants';
-import {
-  _SELECT_ANSWER,
-  _INCREMENT_COUNTER,
-  _RESET_COUNTER,
-  _INCREMENT_SCORE,
-  _RESET_SCORE,
-} from "./actionTypes";
 
 interface AppProps {
   answerCounter: number;
@@ -42,16 +40,16 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     const answer = e.currentTarget.value;
     const isCorrect = questions[answerCounter].correct_answer === answer;
-    // if (isCorrect) {
-      dispatch((() => ({ type: _INCREMENT_SCORE }))());
-    // }
+    if (isCorrect) {
+      dispatch(INCREMENT_SCORE());
+    }
     setCurrentAnswer(answer);
     setIsGameOver(answerCounter === TOTAL_QUESTIONS / 2 - 1);
   };
 
   const nextQuestion = () => {
     setCurrentAnswer("");
-    dispatch({ type: _INCREMENT_COUNTER });
+    dispatch(INCREMENT_COUNTER());
   };
 
   return (

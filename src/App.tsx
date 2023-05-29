@@ -46,29 +46,28 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
       dispatch(INCREMENT_SCORE());
     }
     setCurrentAnswer(answer);
-    setIsGameOver(answerCounter === TOTAL_QUESTIONS / 2 - 1);
   };
 
   const nextQuestion = () => {
     setCurrentAnswer("");
-    dispatch(INCREMENT_COUNTER());
+    if (answerCounter === TOTAL_QUESTIONS / 2 - 1) {
+      setIsGameOver(true);
+    } else {
+      dispatch(INCREMENT_COUNTER());
+    }
   };
 
   return (
     <>
-      <h1>React Quiz</h1>
-      <div>
-        <p>Sore is {score}.</p>
-      </div>
-
-      {isGameOver || answerCounter === TOTAL_QUESTIONS / 2 ? (
-        <div>
-          <p>Game Over! Your final score is {score} out of {TOTAL_QUESTIONS / 2}.</p>
-          <button onClick={startTrivia}>Start Again</button>
-        </div>
-      ) : isLoading ? (
-        <p>Loading Questions...</p>
-      ) : (
+      <h1>REACT QUIZ</h1>
+      {isGameOver || answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
+        <button className='start' onClick={startTrivia}>
+          Start
+        </button>
+      ) : null}
+      {!isGameOver ? <p className='score'>Score: {score} out of {TOTAL_QUESTIONS / 2}.</p> : null}
+      {isLoading ? <p>Loading Questions...</p> : null}
+      {!isLoading && !isGameOver && (
         <>
           <QuestionCard
             questionNumber={answerCounter * 2 + 1}
@@ -88,13 +87,13 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
             userAnswer={currentAnswer}
             callback={checkAnswer}
           />
-          {currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
-            <button className='next' onClick={nextQuestion}>
-              Next Question
-            </button>
-          ) : null}
         </>
       )}
+      {!isGameOver && !isLoading && currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
+        <button className='next' onClick={nextQuestion}>
+          Next Question
+        </button>
+      ) : null}
     </>
   );
 };

@@ -6,7 +6,7 @@ import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 type Props = {
   question: string;
   answers: string[];
-  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  callback: (n: number, e: React.MouseEvent<HTMLButtonElement>) => void;
   userAnswer: string | undefined;
   correctAnswer: string | undefined;
   questionNumber: number;
@@ -34,7 +34,7 @@ const QuestionCard: React.FC<Props> = ({
           correct={userAnswer !== "" && correctAnswer === answer ? "true" : "false"}
           clicked={userAnswer === answer ? "true" : "false"}
         >
-          <button type="button" disabled={userAnswer ? true : false} value={answer} onClick={callback}>
+          <button type="button" disabled={userAnswer ? true : false} value={answer} onClick={(ev) => callback(questionNumber, ev)}>
             <span dangerouslySetInnerHTML={{ __html: answer }} />
           </button>
         </ButtonWrapper>

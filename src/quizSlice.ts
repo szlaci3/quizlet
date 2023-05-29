@@ -1,12 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Question, QuestionState } from "./types";
-import {
-  _SELECT_ANSWER,
-  _INCREMENT_COUNTER,
-  _RESET_COUNTER,
-  _INCREMENT_SCORE,
-  _RESET_SCORE,
-} from "./actionTypes";
 import { loadQuestions } from "./actions/loadQuestions";
 
 export interface QuizState {
@@ -27,19 +20,16 @@ export const quizSlice = createSlice({
   name: "quiz",
   initialState,
   reducers: {
-    [_SELECT_ANSWER]: (state, action: PayloadAction<string>) => {
-      state.userAnswer = action.payload;
-    },
-    [_INCREMENT_COUNTER]: (state) => {
+    INCREMENT_COUNTER: (state) => {
       state.answerCounter += 1;
     },
-    [_RESET_COUNTER]: (state) => {
+    RESET_COUNTER: (state) => {
       state.answerCounter = 0;
     },
-    [_INCREMENT_SCORE]: (state) => {
+    INCREMENT_SCORE: (state) => {
       state.score += 1;
     },
-    [_RESET_SCORE]: (state) => {
+    RESET_SCORE: (state) => {
       state.score = 0;
     },
   },
@@ -57,11 +47,10 @@ export const quizSlice = createSlice({
 });
 
 export const {
-  [_SELECT_ANSWER]: SELECT_ANSWER,
-  [_INCREMENT_COUNTER]: INCREMENT_COUNTER,
-  [_RESET_COUNTER]: RESET_COUNTER,
-  [_INCREMENT_SCORE]: INCREMENT_SCORE,
-  [_RESET_SCORE]: RESET_SCORE,
+  INCREMENT_COUNTER,
+  RESET_COUNTER,
+  INCREMENT_SCORE,
+  RESET_SCORE,
 } = quizSlice.actions;
 
 export default quizSlice.reducer;

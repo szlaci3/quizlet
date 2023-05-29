@@ -32,14 +32,16 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
     } catch (error) {
       console.error(error);
     } finally {
+      dispatch(RESET_SCORE());
+      dispatch(RESET_COUNTER());
       setIsLoading(false);
       setCurrentAnswer("");
     }
   };
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const checkAnswer = (questionNumber: number, e: React.MouseEvent<HTMLButtonElement>) => {
     const answer = e.currentTarget.value;
-    const isCorrect = questions[answerCounter].correct_answer === answer;
+    const isCorrect = questions[questionNumber - 1].correct_answer === answer;
     if (isCorrect) {
       dispatch(INCREMENT_SCORE());
     }

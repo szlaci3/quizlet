@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Question, QuestionState } from "./types";
+import { createSlice } from "@reduxjs/toolkit";
+import { QuestionState } from "./types";
 import { loadQuestions } from "./actions/loadQuestions";
 
 export interface QuizState {

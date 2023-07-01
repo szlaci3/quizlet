@@ -5,6 +5,7 @@ import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 
 type Props = {
   question: string;
+  side: string;
   answers: string[];
   callback: (n: number, e: React.MouseEvent<HTMLButtonElement>) => void;
   userAnswer: string | undefined;
@@ -15,6 +16,7 @@ type Props = {
 
 const QuestionCard: React.FC<Props> = ({
   question,
+  side,
   answers,
   callback,
   userAnswer,
@@ -24,7 +26,7 @@ const QuestionCard: React.FC<Props> = ({
 }) => (
   <Wrapper>
     <p className='number'>
-      Question: {questionNumber} / {totalQuestions}
+      Question {side}
     </p>
     <p dangerouslySetInnerHTML={{ __html: question }} />
     <div>

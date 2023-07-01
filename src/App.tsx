@@ -19,14 +19,18 @@ interface AppProps {
 
 const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestions }) => {
   const [currentAnswer, setCurrentAnswer] = useState("");
-  const [isGameOver, setIsGameOver] = useState(true);
+  const [isInitialState, setIsInitialState] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
+  if (TOTAL_QUESTIONS % 2 !== 0) {
+    return <div >Error. TOTAL_QUESTIONS must be an even number.</div>
+  }  
+
   const startTrivia = async () => {
     setIsLoading(true);
-    setIsGameOver(false);
+    setIsInitialState(false);
     try {
       await loadQuestions();
     } catch (error) {
@@ -51,7 +55,7 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
   const nextQuestion = () => {
     setCurrentAnswer("");
     if (answerCounter === TOTAL_QUESTIONS / 2 - 1) {
-      setIsGameOver(true);
+      setIsInitialState(true);
     } else {
       dispatch(INCREMENT_COUNTER());
     }
@@ -59,17 +63,23 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
 
   return (
     <>
-      <h1>REACT QUIZ</h1>
-      {isGameOver || answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
+      <h1>QUIZLET</h1>
+      <h2>Your favorite 1-minute break</h2>
+      
+      {isInitialState || answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
         <button className='start' onClick={startTrivia}>
-          Start
+          {isInitialState ? "Start" : "Restart"}
         </button>
-      ) : null}
-      {!isGameOver ? <p className='score'>Score: {score} out of {TOTAL_QUESTIONS / 2}.</p> : null}
+      ) : <div>It's your choice which question you answer: A or B.</div>}
+      {!isInitialState ? <p className='stats'>
+        <span>Score: {score}</span>
+        <span>Round {answerCounter + 1} / {TOTAL_QUESTIONS / 2}</span>
+      </p> : null}
       {isLoading ? <p>Loading Questions...</p> : null}
-      {!isLoading && !isGameOver && (
+      {!isLoading && !isInitialState && (
         <>
           <QuestionCard
+            side="A"
             questionNumber={answerCounter * 2 + 1}
             totalQuestions={TOTAL_QUESTIONS}
             question={questions[answerCounter * 2].question}
@@ -79,6 +89,7 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
             callback={checkAnswer}
           />
           <QuestionCard
+            side="B"
             questionNumber={answerCounter * 2 + 2}
             totalQuestions={TOTAL_QUESTIONS}
             question={questions[answerCounter * 2 + 1].question}
@@ -89,10 +100,13 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
           />
         </>
       )}
-      {!isGameOver && !isLoading && currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
+      {!isInitialState && !isLoading && currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
         <button className='next' onClick={nextQuestion}>
-          Next Question
+          Next Round
         </button>
+      ) : null}
+      {answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
+        <div>Game Over</div>
       ) : null}
     </>
   );

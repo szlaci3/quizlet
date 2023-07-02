@@ -1,7 +1,7 @@
 import React from 'react';
 // Styles
-import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
-
+import { Wrapper, Answers, ButtonWrapper } from './QuestionCard.styles';
+import sanitizeHtml from 'sanitize-html';
 
 type Props = {
   question: string;
@@ -23,26 +23,34 @@ const QuestionCard: React.FC<Props> = ({
   correctAnswer,
   questionNumber,
   totalQuestions,
-}) => (
-  <Wrapper>
-    <p className='number'>
+}) => {
+
+  const renderAnswers = (answer: string) => (
+    <ButtonWrapper
+      key={answer}
+      correct={userAnswer !== "" && correctAnswer === answer ? "true" : "false"}
+      clicked={userAnswer === answer ? "true" : "false"}
+    >
+      <button type="button" disabled={userAnswer ? true : false} value={answer} onClick={(ev) => callback(questionNumber, ev)}>
+        <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer) }} />
+      </button>
+    </ButtonWrapper>
+  )
+  
+  return <Wrapper>
+    <p>
       Question {side}
     </p>
-    <p dangerouslySetInnerHTML={{ __html: question }} />
-    <div>
-      {answers.map((answer) => (
-        <ButtonWrapper
-          key={answer}
-          correct={userAnswer !== "" && correctAnswer === answer ? "true" : "false"}
-          clicked={userAnswer === answer ? "true" : "false"}
-        >
-          <button type="button" disabled={userAnswer ? true : false} value={answer} onClick={(ev) => callback(questionNumber, ev)}>
-            <span dangerouslySetInnerHTML={{ __html: answer }} />
-          </button>
-        </ButtonWrapper>
-      ))}
-    </div>
+    <p className='q-text' dangerouslySetInnerHTML={{ __html: sanitizeHtml(question) }} />
+    <Answers>
+      <div className="row">
+        {answers.slice(0,2).map(renderAnswers)}
+      </div>
+      <div className="row">
+        {answers.slice(2,4).map(renderAnswers)}
+      </div>
+    </Answers>
   </Wrapper>
-);
+};
 
 export default QuestionCard;

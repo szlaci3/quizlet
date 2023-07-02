@@ -1,16 +1,38 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  max-width: 1100px;
-  background: #ebfeff;
-  border-radius: 10px;
-  border: 2px solid #0085a3;
+  flex: 1 1;
   padding: 20px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
   text-align: center;
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  background: linear-gradient(135deg, rgba(3, 3, 0, .1), rgba(0,0,0, .7));
+  
+  &:first-child {
+    background: linear-gradient(135deg, rgba(74, 76, 6, .1), rgba(0, 0, 0, .2));
+  }
 
   p {
     font-size: 1rem;
+  }
+
+  .q-text {
+    color: #b99700;
+  }
+`;
+
+export const Answers = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: calc(100vh - 460px);
+  min-height: 100px;
+
+  .row {
+    display: inline-flex;
+    justify-content: stretch;    
   }
 `;
 
@@ -20,29 +42,35 @@ type ButtonWrapperProps = {
 };
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
+  flex: 1 0;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  margin: 4px;
 
   :hover {
     opacity: 0.8;
   }
 
   button {
+    border:1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     cursor: pointer;
     user-select: none;
     font-size: 0.8rem;
     width: 100%;
-    height: 40px;
-    margin: 5px 0;
+    min-height: 40px;
+    height: calc(25vh - 120px);
     background: ${({ correct, clicked }) =>
       correct === 'true'
-        ? 'linear-gradient(90deg, #56FFA4, #59BC86)'
+        ? '#013001'
         : correct === 'false' && clicked === 'true'
-        ? 'linear-gradient(90deg, #FF5656, #C16868)'
-        : 'linear-gradient(90deg, #56CCFF, #6EAFB4)'};
-    border: 3px solid #fff;
-    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
+        ? '#661300'
+        : 'transparent'};
     border-radius: 10px;
-    color: #fff;
+    color: #fffc;
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
+    padding: 0 2vw;
   }
 `;

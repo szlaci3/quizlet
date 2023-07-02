@@ -66,18 +66,19 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
       <h1>QUIZLET</h1>
       <h2>Your favorite 1-minute break</h2>
       
-      {isInitialState || answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
-        <button className='start' onClick={startTrivia}>
-          {isInitialState ? "Start" : "Restart"}
-        </button>
-      ) : <div>It's your choice which question you answer: A or B.</div>}
       {!isInitialState ? <p className='stats'>
         <span>Score: {score}</span>
         <span>Round {answerCounter + 1} / {TOTAL_QUESTIONS / 2}</span>
+        {answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
+          <span>Game Over</span>
+        ) : (
+          <span>It's your choice which question you answer: A or B.</span>
+        )}
       </p> : null}
+
       {isLoading ? <p>Loading Questions...</p> : null}
       {!isLoading && !isInitialState && (
-        <>
+        <div className='cards'>
           <QuestionCard
             side="A"
             questionNumber={answerCounter * 2 + 1}
@@ -98,15 +99,18 @@ const App: React.FC<AppProps> = ({ answerCounter, score, questions, loadQuestion
             userAnswer={currentAnswer}
             callback={checkAnswer}
           />
-        </>
+        </div>
       )}
       {!isInitialState && !isLoading && currentAnswer !== "" && answerCounter !== TOTAL_QUESTIONS / 2 - 1 ? (
-        <button className='next' onClick={nextQuestion}>
+        <button className='bottom next' onClick={nextQuestion}>
           Next Round
         </button>
       ) : null}
-      {answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
-        <div>Game Over</div>
+
+      {isInitialState || answerCounter == TOTAL_QUESTIONS / 2 - 1 && currentAnswer !== "" ? (
+        <button className='bottom start' onClick={startTrivia}>
+          {isInitialState ? "Start" : "Restart"}
+        </button>
       ) : null}
     </>
   );

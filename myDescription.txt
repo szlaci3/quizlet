@@ -1,10 +1,12 @@
-CRA ts scss
+03/2quizlet
 
+CRA
+React hooks · Redux · TypeScript · External API · Styled Components
 
-1. Make github repo and clone
-2. remove all files except GIT
-3. tyarn create react-app ./ --template typescript
-4. add scss support
+tyarn create react-app ./ --template typescript
+
+Background svg from https://bgjar.com/
+
 
 
 

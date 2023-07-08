@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  flex: 1 1;
+  flex: 1 0;
   padding: 20px;
   text-align: center;
   border-radius: 20px;
   border:1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  background: linear-gradient(135deg, rgba(3, 3, 0, .1), rgba(0,0,0, .7));
+  background: linear-gradient(135deg, rgba(48, 49, 4, .2), rgba(0,0,0, .7));
   
   &:first-child {
-    background: linear-gradient(135deg, rgba(74, 76, 6, .1), rgba(0, 0, 0, .2));
+    background: linear-gradient(135deg, rgba(74, 76, 6, .1), rgba(26, 27, 2, .5));
   }
 
   p {

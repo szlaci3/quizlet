@@ -10,5 +10,7 @@ tyarn create react-app ./ --template typescript
 Background svg from https://bgjar.com/
 
 
+A fast-paced trivia app with dual-choice mechanics and external API integration.
 
+Quizlet is an interactive quiz application built as a portfolio proof-of-concept to demonstrate modern front-end development skills. The app presents users with paired trivia questions in each round, allowing them to choose between option A or B, creating an engaging and strategic quiz experience. Built with React, Redux Toolkit, and TypeScript, the application manages complex async state flows using Redux thunks to fetch questions from the Open Trivia Database API. The UI leverages Styled Components for a polished, component-based design system, while implementing answer shuffling algorithms and real-time scoring. One of the key technical challenges was safely handling HTML entities in questions and answers from the external API. I implemented sanitize-html to prevent XSS vulnerabilities while preserving proper text rendering. Another challenge was architecting clean Redux state management patterns with TypeScript, particularly typing async thunks and ensuring type safety across the component tree while maintaining good separation of concerns between UI logic and state management. The project showcases proficiency in React hooks, Redux state management, TypeScript integration, external API consumption, and security best practices in a single-page application.
 

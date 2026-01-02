@@ -4,14 +4,12 @@ import { loadQuestions } from "./actions/loadQuestions";
 
 export interface QuizState {
   questions: QuestionState[];
-  userAnswer: string;
   answerCounter: number;
   score: number;
 }
 
 const initialState: QuizState = {
   questions: [],
-  userAnswer: "",
   answerCounter: 0,
   score: 0,
 };
